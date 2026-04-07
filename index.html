@@ -12,6 +12,21 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>運動場館篩選</title>
 
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <!-- MarkerCluster CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"
+  />
+
 <style>
 /* 左側 checkbox 直式排列 */
 .sidebar label {
@@ -119,6 +134,48 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
     grid-template-columns: repeat(1, 1fr) !important;
   }
 }
+
+    /* 容器 */
+    #sports-map-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    #map {
+      width: 800px;
+      height: 800px;
+      max-width: 100%;
+    }
+
+    /* 移除 focus 外框 */
+    .leaflet-interactive:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    /* Cluster 樣式 */
+    .marker-cluster {
+      border-radius: 50%;
+      color: #fff;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Tooltip 樣式 */
+    .leaflet-tooltip.custom-tooltip {
+      background: #ff8c00;
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      box-shadow: none;
+      white-space: nowrap;
+    }
 </style>
 </head>
 
@@ -189,7 +246,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
       <!-- 3 -->
       <a class="card-link" href="https://xysc.teamxports.com/" target="_blank">
-        <div class="card" data-type="fitness BMLT">
+        <div class="card" data-type="fitness bmlt">
           <img src="https://picsum.photos/300/200?103">
           <div class="card-body">
             <div class="title">臺北市永春活力館</div>
@@ -280,7 +337,7 @@ j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
 
       <!-- 10 -->
       <a class="card-link" href="https://fysc.teamxports.com/" target="_blank">
-        <div class="card" data-type="gym fitness">
+        <div class="card" data-type="fitness">
           <img src="https://picsum.photos/300/200?110">
           <div class="card-body">
             <div class="title">臺中市豐原國民暨兒童運動中心</div>
@@ -355,4 +412,178 @@ document.addEventListener("DOMContentLoaded", function () {
 </script>
 
 </body>
+
+<link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+  />
+
+  <!-- MarkerCluster CSS -->
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"
+  />
+  <link
+    rel="stylesheet"
+    href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"
+  />
+
+  <style>
+    /* 容器 */
+    #sports-map-wrapper {
+      width: 100%;
+      display: flex;
+      justify-content: center;
+    }
+
+    #map {
+      width: 800px;
+      height: 800px;
+      max-width: 100%;
+    }
+
+    /* 移除 focus 外框 */
+    .leaflet-interactive:focus {
+      outline: none;
+      box-shadow: none;
+    }
+
+    /* Cluster 樣式 */
+    .marker-cluster {
+      border-radius: 50%;
+      color: #fff;
+      font-weight: bold;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    /* Tooltip 樣式 */
+    .leaflet-tooltip.custom-tooltip {
+      background: #ff8c00;
+      color: #fff;
+      font-size: 20px;
+      font-weight: bold;
+      border: none;
+      border-radius: 6px;
+      padding: 6px 10px;
+      box-shadow: none;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+
+<body>
+
+<h2 style="text-align:center">運動場館地圖</h2>
+
+<div id="sports-map-wrapper">
+  <div id="map"></div>
+</div>
+
+<!-- Leaflet JS -->
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+
+<!-- MarkerCluster JS -->
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<script>
+/* ---------- 工具函式 ---------- */
+function lerp(value, min1, max1, min2, max2) {
+  return min2 + ((value - min1) * (max2 - min2)) / (max1 - min1);
+}
+
+function getColorByCount(count) {
+  var max = 10;
+  var n = Math.min(count, max) / max;
+  var sat = lerp(n, 0, 1, 50, 100);
+  var light = lerp(n, 0, 1, 70, 40);
+  return `hsl(0, ${sat}%, ${light}%)`;
+}
+
+function getRadiusByCount(count) {
+  var max = 10;
+  var n = Math.min(count, max) / max;
+  return lerp(n, 0, 1, 15, 30);
+}
+
+/* ---------- 地圖初始化 ---------- */
+var map = L.map('map', {
+  center: [23.7, 121],
+  zoom: 7,
+  minZoom: 7,
+  scrollWheelZoom: true
+});
+
+L.tileLayer(
+  'https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png',
+  { attribution: '© OpenStreetMap & CartoDB' }
+).addTo(map);
+
+/* ---------- 場館資料 ---------- */
+var venues = [
+  { name:"臺北市崇越總部內湖運動訓練中心", lat:25.0809, lng:121.5756 },
+  { name:"臺北市信義運動中心", lat:25.0329, lng:121.5654 },
+  { name:"永春活力館", lat:25.0405, lng:121.5759 },
+  { name:"臺北市天母運動訓練館", lat:25.1367, lng:121.4660 },
+  { name:"榮星花園游泳池", lat:25.0615, lng:121.5338 },
+  { name:"新北市臺北大學運動中心", lat:24.9433, lng:121.3702 },
+  { name:"新北市三峽運動中心", lat:24.9345, lng:121.3720 },
+  { name:"新北市鶯歌運動中心", lat:24.9568, lng:121.3526 },
+  { name:"桃園市八德社宅微型運動館", lat:24.9295, lng:121.2960 },
+  { name:"臺中市豐原國民暨兒童運動中心", lat:24.2520, lng:120.7223 }
+];
+
+/* ---------- Marker Cluster ---------- */
+var markers = L.markerClusterGroup({
+  iconCreateFunction: function(cluster) {
+    var count = cluster.getChildCount();
+    var r = getRadiusByCount(count);
+    var c = getColorByCount(count);
+
+    return L.divIcon({
+      html: `<div style="
+        width:${r*2}px;
+        height:${r*2}px;
+        background:${c};
+        border-radius:50%;
+        line-height:${r*2}px;
+      ">${count}</div>`,
+      className: 'marker-cluster',
+      iconSize: L.point(r*2, r*2)
+    });
+  }
+});
+
+/* ---------- Marker ---------- */
+venues.forEach(function(v) {
+  var marker = L.circleMarker([v.lat, v.lng], {
+    radius: 8,
+    fillColor: "#ff4d4d",
+    color: "transparent",
+    fillOpacity: 0.7
+  });
+
+  marker.bindTooltip(v.name, {
+    direction: 'top',
+    className: 'custom-tooltip',
+    offset: [0, -8],
+    opacity: 1
+  });
+
+  marker.on('mouseover', function() {
+    this.setStyle({ fillColor: '#ff8c00' });
+    this.openTooltip();
+  });
+
+  marker.on('mouseout', function() {
+    this.setStyle({ fillColor: '#ff4d4d' });
+    this.closeTooltip();
+  });
+
+  markers.addLayer(marker);
+});
+
+map.addLayer(markers);
+</script>
 </html>
