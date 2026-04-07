@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>運動場館篩選</title>
+
+<style>
+/* 左側 checkbox 直式排列 */
+.sidebar label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.sidebar input {
+  margin-right: 6px;
+}
+
+/* 卡片外層連結 */
+.card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 美化卡片 */
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 4px 18px rgba(0,0,0,.1);
+  transition: .25s ease;
+  border: 1px solid #eee;
+  cursor: pointer;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,.15);
+}
+.card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+.card-body {
+  padding: 14px;
+}
+.card-body .title {
+  color: #222;
+  font-size: 18px;
+  font-weight: 700;
+}
+.card-body div {
+  margin-top: 6px;
+  font-size: 15px;
+}
+
+/* 分頁美化 */
+.pagination {
+  margin-top: 25px;
+  text-align: center;
+}
+.pagination button {
+  margin: 0 4px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  transition: .2s;
+  font-size: 15px;
+}
+.pagination button:hover:not(:disabled) {
+  background: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+.pagination button.active {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+.pagination button:disabled {
+  background: #eee;
+  cursor: not-allowed;
+}
+
+  .card {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+.card-body {
+  padding: 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+
+
+/* RWD */
+@media (max-width: 768px) {
+  #cardList {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 480px) {
+  #cardList {
+    grid-template-columns: repeat(1, 1fr) !important;
+  }
+}
+</style>
+</head>
+
+<body style="font-family:sans-serif;">
+
+<div class="container" style="display:flex; gap:20px;">
+
+  <!-- 左側 checkbox -->
+  <div class="sidebar" style="width:180px;">
+    <label><input type="checkbox" value="bmlt">初動負荷</label>
+    <label><input type="checkbox" value="fitness">體適能</label>
+    <label><input type="checkbox" value="table_tennis">桌球</label>
+    <label><input type="checkbox" value="squash">壁球</label>
+    <label><input type="checkbox" value="swimming">游泳</label>
+    <label><input type="checkbox" value="basketball">籃球</label>
+    <label><input type="checkbox" value="badminton">羽球</label>
+    <label><input type="checkbox" value="pickleball">匹克球</label>
+
+    <label><input type="checkbox" value="aerobics">有氧</label>
+    <label><input type="checkbox" value="yoga">瑜珈</label>
+    <label><input type="checkbox" value="dance">舞蹈</label>
+    <label><input type="checkbox" value="spinning">飛輪</label>
+    <label><input type="checkbox" value="aerial_yoga">空中瑜珈</label>
+    <label><input type="checkbox" value="trx">TRX</label>
+
+    
+    <label><input type="checkbox" value="baseball">棒球</label>
+    <label><input type="checkbox" value="tennis">網球</label>
+    <label><input type="checkbox" value="rock_climbing">攀岩</label>
+    <label><input type="checkbox" value="volleyball">排球</label>
+  </div>
+
+  <!-- 卡片區 -->
+  <div style="flex:1;">
+    <div id="cardList" class="grid"
+      style="display:grid; grid-template-columns:repeat(3,1fr); gap:15px;">
+
+      <!-- 卡片們開始 -->
+      <!-- 1 -->
+      <a class="card-link" href="https://nhhc.teamxports.com/" target="_blank">
+        <div class="card" data-type="bmlt fitness spinning aerial_yoga">
+          <img src="https://xports8.wordpress.com/wp-content/uploads/2026/04/dsc01451-4.jpg" height="10px" alt="信義運動中心">
+          <div class="card-body">
+            <div class="title">臺北市崇越總部內湖運動訓練中心</div>
+            <div>📍 臺北市內湖區洲子街178-1號</div>
+            <div>🕒 07:30-20:00</div>
+            <div>☎ 02-2799-0979</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 2 -->
+      <a class="card-link" href="https://xysc.teamxports.com/" target="_blank">
+        <div class="card" data-type="bmlt fitness table_tennis squash swimming basketball badminton pickleball aerobics yoga dance spinning aerial_yoga trx volleyball">
+          <img src="https://picsum.photos/300/200?102">
+          <div class="card-body">
+            <div class="title">臺北市信義運動中心</div>
+            <div>📍 台北市信義區松勤街100號</div>
+            <div>🕒 06:00–22:00</div>
+            <div>☎ 02-8786-1911</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 3 -->
+      <a class="card-link" href="https://xysc.teamxports.com/" target="_blank">
+        <div class="card" data-type="fitness BMLT">
+          <img src="https://picsum.photos/300/200?103">
+          <div class="card-body">
+            <div class="title">臺北市永春活力館</div>
+            <div>📍 台北市信義區松山路342巷13號1樓</div>
+            <div>🕒 06:00–22:00</div>
+            <div>☎ 02-2756-5819</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 4 -->
+      <a class="card-link" href="https://tmsc.teamxports.com/" target="_blank">
+        <div class="card" data-type="table_tennis fitness">
+          <img src="https://xports8.wordpress.com/wp-content/uploads/2026/04/dsc02531.jpg" alt="臺北市天母運動訓練館">
+          <div class="card-body">
+            <div class="title">臺北市天母運動訓練館</div>
+            <div>📍 臺北市北投區明德路365號爾雅樓2F</div>
+            <div>🕒 09:00–20:00</div>
+            <div>☎ 02-2828-2008</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 5 -->
+      <a class="card-link" href="https://rxsp.teamxports.com/" target="_blank">
+        <div class="card" data-type="badminton basketball">
+          <img src="https://picsum.photos/300/200?105">
+          <div class="card-body">
+            <div class="title">臺北市榮星花園游泳池</div>
+            <div>📍 台北市中山區建國北路三段39號</div>
+            <div>🕒 05:30–22:00（分時段）</div>
+            <div>☎ 02-2507-9366</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 6 -->
+      <a class="card-link" href="https://www.tusc.tw/" target="_blank">
+        <div class="card" data-type="rock_climbing fitness">
+          <img src="https://picsum.photos/300/200?106">
+          <div class="card-body">
+            <div class="title">新北市臺北大學運動中心</div>
+            <div>📍 新北市三峽區大學路151號</div>
+            <div>🕒 06:00–21:30</div>
+            <div>☎ 02-8671-3035</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 7 -->
+      <a class="card-link" href="https://sxsc.teamxports.com/" target="_blank">
+        <div class="card" data-type="swimming">
+          <img src="https://picsum.photos/300/200?107">
+          <div class="card-body">
+            <div class="title">新北市三峽運動中心</div>
+            <div>📍 新北市三峽區文化路210巷12號</div>
+            <div>🕒 06:00–22:00</div>
+            <div>☎ 02-2674-9088</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 8 -->
+      <a class="card-link" href="https://ygsc.teamxports.com/" target="_blank">
+        <div class="card" data-type="tennis fitness">
+          <img src="https://picsum.photos/300/200?108">
+          <div class="card-body">
+            <div class="title">新北市鶯歌運動中心</div>
+            <div>📍 新北市鶯歌區館前路250號</div>
+            <div>🕒 06:00–22:00</div>
+            <div>☎ 02-8678-2677</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 9 -->
+      <a class="card-link" href="https://bd3csc.teamxports.com/" target="_blank">
+        <div class="card" data-type="volleyball fitness">
+          <img src="https://picsum.photos/300/200?109">
+          <div class="card-body">
+            <div class="title">桃園市八德社宅微型運動館</div>
+            <div>📍 桃園市八德區豐德路458號2樓</div>
+            <div>🕒 平日14:00–21:00；假日08:00–21:00</div>
+            <div>☎ 03-368-1077</div>
+          </div>
+        </div>
+      </a>
+
+      <!-- 10 -->
+      <a class="card-link" href="https://fysc.teamxports.com/" target="_blank">
+        <div class="card" data-type="gym fitness">
+          <img src="https://picsum.photos/300/200?110">
+          <div class="card-body">
+            <div class="title">臺中市豐原國民暨兒童運動中心</div>
+            <div>📍 台中市豐原區豐原大道一段（豐玉路8號）</div>
+            <div>🕒 06:00–22:00</div>
+            <div>☎ 04-2512-0120</div>
+          </div>
+        </div>
+      </a>
+
+    </div>
+
+    <!-- 分頁 -->
+    <div id="pagination" class="pagination"></div>
+  </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+  const checkboxes = document.querySelectorAll(".sidebar input");
+  const cards = Array.from(document.querySelectorAll(".card-link"));
+  const pagination = document.getElementById("pagination");
+  const cardsPerPage = 6;
+  let currentPage = 1;
+
+  function updateView() {
+    const selected = Array.from(checkboxes)
+      .filter(c => c.checked)
+      .map(c => c.value);
+
+    const filtered = selected.length === 0
+      ? cards
+      : cards.filter(card => {
+          const types = card.querySelector(".card").dataset.type.split(" ");
+          return selected.some(s => types.includes(s));
+        });
+
+    const totalPages = Math.ceil(filtered.length / cardsPerPage);
+    if (currentPage > totalPages) currentPage = totalPages || 1;
+
+    const start = (currentPage - 1) * cardsPerPage;
+    const end = start + cardsPerPage;
+
+    cards.forEach(card => card.style.display = "none");
+    filtered.slice(start, end).forEach(card => card.style.display = "block");
+
+    renderPagination(totalPages);
+  }
+
+  function renderPagination(totalPages) {
+    let html = "";
+    html += `<button ${currentPage===1?"disabled":""} onclick="goPage(${currentPage-1})">« 上一頁</button>`;
+    for (let i = 1; i <= totalPages; i++) {
+      html += `<button onclick="goPage(${i})" class="${i===currentPage?"active":""}">${i}</button>`;
+    }
+    html += `<button ${currentPage===totalPages?"disabled":""} onclick="goPage(${currentPage+1})">下一頁 »</button>`;
+    pagination.innerHTML = html;
+  }
+
+  window.goPage = function(num) {
+    currentPage = num;
+    updateView();
+  };
+
+  checkboxes.forEach(cb => cb.addEventListener("change", () => {
+    currentPage = 1;
+    updateView();
+  }));
+
+  updateView();
+});
+</script>
+
+</body>
+</html>

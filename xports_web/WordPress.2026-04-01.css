@@ -1,0 +1,157 @@
+:root {
+  --base-2: #f8f9fa;
+  --theme-1: #f3c51d;
+  --theme-5: #333;
+}
+
+body {
+  margin: 0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #212b3b;
+  color: var(--base-2);
+}
+
+.wp-block-image.size-full.logo-frame,
+.logo-frame {
+  max-width: 120px;
+  margin: 0 auto;
+}
+
+.logo-frame img {
+  width: 100%;
+  height: auto;
+}
+
+.home-root {
+  margin: 0 auto;
+  width: 80%;
+  padding: 0;
+  background-color: #212b3b;
+}
+
+body {
+  margin: 0;
+  padding: 0 10%;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background-color: #212b3b;
+  color: var(--base-2);
+}
+
+.home-page {
+  margin: 0;
+  padding: 0;
+}
+
+.contant {
+  margin: 328px 0;
+  padding: 0;
+  text-align: center;
+}
+
+.logo-frame {
+  max-width: 200px;
+  margin: 0 auto;
+}
+
+.slogan,
+.slogan-text {
+  margin: 0;
+  padding: 32px 0;
+}
+
+.section {
+  padding: 64px 0;
+  color: var(--theme-1);
+}
+
+.section h2 {
+  color: var(--base-2);
+}
+
+.section p {
+  font-size: 1rem;
+  color: var(--base-2);
+  max-width: 960px;
+  margin: 0 auto;
+}
+
+.service-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+.btn {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  min-width: 150px;
+  padding: 10px 16px;
+  color: #212b3b;
+  background: #fff;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn.fill {
+  background: var(--theme-1);
+  color: var(--theme-5);
+}
+
+.service-blocks {
+  display: flex;
+  gap: 24px;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.service-item {
+  max-width: 420px;
+  background: rgba(255,255,255,0.06);
+  border-radius: 10px;
+  padding: 16px;
+}
+
+.service-item img {
+  width: 100%;
+  border-radius: 8px;
+}
+
+.service-item h3 {
+  color: var(--base-2);
+}
+
+.service-item p {
+  color: var(--base-2);
+}
+
+.action {
+  display: inline-block;
+  margin-top: 12px;
+  background: #f3c51d;
+  color: #333;
+  border-radius: 8px;
+  padding: 8px 16px;
+}
+
+.pagination-nav {
+  text-align: center;
+  margin: 24px 0 40px;
+}
+
+.page-link {
+  display: inline-block;
+  margin: 0 8px;
+  padding: 10px 16px;
+  color: #212b3b;
+  background: #f3c51d;
+  border-radius: 8px;
+  text-decoration: none;
+  font-weight: 600;
+}
+.page-link:hover {
+  opacity: 0.85;
+}

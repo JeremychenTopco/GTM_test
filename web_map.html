@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8" />
+<title>運動場館地圖 - 全台視野</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- Leaflet -->
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.css"/>
+<link rel="stylesheet" href="https://unpkg.com/leaflet.markercluster@1.5.3/dist/MarkerCluster.Default.css"/>
+
+<style>
+  body {
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: #f5f5f5;
+  }
+  #map {
+    width: 800px;
+    height: 800px;
+    border-radius: 12px;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+  }
+  .marker-cluster {
+    color: white;
+    text-align: center;
+    border-radius: 50%;
+    font-weight: bold;
+    line-height: 1.4;
+    border: 2px solid white;
+    box-shadow: 0 0 5px rgba(0,0,0,0.3);
+  }
+  .leaflet-interactive:focus {
+    outline: none;
+    box-shadow: none;
+  }
+</style>
+</head>
+<body>
+<div id="map"></div>
+
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script src="https://unpkg.com/leaflet.markercluster@1.5.3/dist/leaflet.markercluster.js"></script>
+
+<script>
+// 線性映射
+function lerp(value, min1, max1, min2, max2) {
+  return min2 + ((value - min1) * (max2 - min2)) / (max1 - min1);
+}
+
+// 顏色漸變
+function getColorByCount(count) {
+  var maxCount = 10;
+  var norm = Math.min(count, maxCount) / maxCount;
+  var saturation = lerp(norm, 0, 1, 50, 100);
+  var lightness = lerp(norm, 0, 1, 70, 40);
+  return `hsl(0, ${saturation}%, ${lightness}%)`;
+}
+
+// 半徑漸變
+function getRadiusByCount(count) {
+  var maxCount = 10;
+  var norm = Math.min(count, maxCount) / maxCount;
+  return lerp(norm, 0, 1, 15, 30);
+}
+
+// 初始化地圖
+var map = L.map('map', {
+  center: [23.7, 121], // 台灣中心
+  zoom: 7,
+  minZoom: 7,          // 最小縮放完整看台灣
+  scrollWheelZoom: true
+});
+
+// 底圖
+L.tileLayer('https://{s}.basemaps.cartocdn.com/light_all/{z}/{x}/{y}{r}.png', {
+  attribution: '&copy; OpenStreetMap & CartoDB'
+}).addTo(map);
+
+var venues = [
+  { name:"臺北市崇越總部內湖運動訓練中心", url:"https://nhhc.teamxports.com/", lat:25.0809, lng:121.5756 },
+  { name:"臺北市信義運動中心", url:"https://xysc.teamxports.com/", lat:25.0329, lng:121.5654 },
+  { name:"永春活力館", url:"https://xysc.teamxports.com/", lat:25.0405, lng:121.5759 },
+  { name:"臺北市天母運動訓練館", url:"https://tmsc.teamxports.com/", lat:25.1367, lng:121.4660 },
+  { name:"榮星花園游泳池", url:"https://rxsp.teamxports.com/", lat:25.0615, lng:121.5338 },
+  { name:"新北市臺北大學運動中心", url:"https://www.tusc.tw/", lat:24.9433, lng:121.3702 },
+  { name:"新北市三峽運動中心", url:"https://sxsc.teamxports.com/", lat:24.9345, lng:121.3720 },
+  { name:"新北市鶯歌運動中心", url:"https://ygsc.teamxports.com/", lat:24.9568, lng:121.3526 },
+  { name:"桃園市八德社宅微型運動館", url:"https://bd3csc.teamxports.com/", lat:24.9295, lng:121.2960 },
+  { name:"臺中市豐原國民暨兒童運動中心", url:"https://fysc.teamxports.com/", lat:24.2520, lng:120.7223 }
+];
+
+// 群聚圖層
+var markers = L.markerClusterGroup({
+  iconCreateFunction: function(cluster) {
+    var count = cluster.getChildCount();
+    var radius = getRadiusByCount(count);
+    var color = getColorByCount(count);
+    var html = `<div style="
+      background:${color};
+      width:${radius*2}px;
+      height:${radius*2}px;
+      line-height:${radius*2}px;
+      border-radius:50%;
+      border:2px solid white;
+      box-shadow:0 0 6px rgba(0,0,0,0.3);
+      color:white;
+      font-weight:bold;
+      font-size:${radius*0.8}px;
+      text-align:center;
+      display:inline-block;
+    ">${count}</div>`;
+    return L.divIcon({
+      html: html,
+      className:'marker-cluster',
+      iconSize:L.point(radius*2, radius*2)
+    });
+  }
+});
+
+// 加標記
+venues.forEach(function(v){
+  var marker = L.circleMarker([v.lat,v.lng],{
+    radius:8,
+    fillColor:"#ff4d4d",
+    color:"transparent", // 去掉藍框
+    weight:0,
+    fillOpacity:0.7
+  });
+  marker.bindTooltip(v.name);
+  marker.bindPopup(`<b>${v.name}</b><br><a href="${v.url}" target="_blank">官網</a>`);
+  markers.addLayer(marker);
+});
+
+map.addLayer(markers);
+</script>
+</body>
+</html>
