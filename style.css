@@ -1,0 +1,165 @@
+/* 通用樣式 */
+body {
+  font-family: sans-serif;
+}
+
+.container {
+  display: flex;
+  gap: 20px;
+}
+
+.container > div:nth-child(2) {
+  flex: 1;
+}
+
+.sidebar {
+  width: 180px;
+}
+
+#cardList {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 15px;
+}
+
+h2 {
+  text-align: center;
+}
+
+/* 左側 checkbox 直式排列 */
+.sidebar label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 16px;
+  cursor: pointer;
+}
+.sidebar input {
+  margin-right: 6px;
+}
+
+/* 卡片外層連結 */
+.card-link {
+  display: block;
+  text-decoration: none;
+  color: inherit;
+}
+
+/* 卡片樣式 */
+/* 美化卡片 */
+.card {
+  border-radius: 12px;
+  overflow: hidden;
+  background: #ffffff;
+  box-shadow: 0 4px 18px rgba(0,0,0,.1);
+  transition: .25s ease;
+  border: 1px solid #eee;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 8px 30px rgba(0,0,0,.15);
+}
+.card img {
+  width: 100%;
+  height: 160px;
+  object-fit: cover;
+}
+.card-body {
+  padding: 14px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.card-body .title {
+  color: #222;
+  font-size: 18px;
+  font-weight: 700;
+}
+.card-body div {
+  margin-top: 6px;
+  font-size: 15px;
+}
+
+/* 分頁美化 */
+.pagination {
+  margin-top: 25px;
+  text-align: center;
+}
+.pagination button {
+  margin: 0 4px;
+  padding: 8px 14px;
+  border-radius: 6px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  transition: .2s;
+  font-size: 15px;
+}
+.pagination button:hover:not(:disabled) {
+  background: #007bff;
+  color: #fff;
+  border-color: #007bff;
+}
+.pagination button.active {
+  background: #333;
+  color: #fff;
+  border-color: #333;
+}
+.pagination button:disabled {
+  background: #eee;
+  cursor: not-allowed;
+}
+
+/* 地圖樣式 */
+/* 容器 */
+#sports-map-wrapper {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+#map {
+  width: 800px;
+  height: 800px;
+  max-width: 100%;
+}
+/* 移除 focus 外框 */
+.leaflet-interactive:focus {
+  outline: none;
+  box-shadow: none;
+}
+/* Cluster 樣式 */
+.marker-cluster {
+  border-radius: 50%;
+  color: #fff;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* Tooltip 樣式 */
+.leaflet-tooltip.custom-tooltip {
+  background: #ff8c00;
+  color: #fff;
+  font-size: 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  box-shadow: none;
+  white-space: nowrap;
+}
+
+/* RWD */
+@media (max-width: 768px) {
+  #cardList {
+    grid-template-columns: repeat(2, 1fr) !important;
+  }
+}
+@media (max-width: 480px) {
+  #cardList {
+    grid-template-columns: repeat(1, 1fr) !important;
+  }
+}
